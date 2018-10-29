@@ -3,10 +3,13 @@ package xgc.free.pinned.decoration;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.Region;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class PinnedHeaderDecoration extends RecyclerView.ItemDecoration {
     private int mHeaderPosition;
@@ -33,7 +36,6 @@ public class PinnedHeaderDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         createPinnedHeader(parent);
-
         if (mPinnedHeaderView != null) {
             int headerEndAt = mPinnedHeaderView.getTop() + mPinnedHeaderView.getHeight();
             //查找到mPinnedHeaderView下的第一个ItemView
@@ -79,7 +81,9 @@ public class PinnedHeaderDecoration extends RecyclerView.ItemDecoration {
             return;
         }
         //通过第一个可见View，向前查找第一个满足条件的PinnedHeader
-        int firstVisiblePosition = ((RecyclerView.LayoutParams) layoutManager.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
+        //((LinearLayoutManager)layoutManager).findFirstVisibleItemPosition();
+//        int firstVisiblePosition = ((RecyclerView.LayoutParams) layoutManager.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
+        int firstVisiblePosition = ((LinearLayoutManager)layoutManager).findFirstVisibleItemPosition();
         int headerPosition = findPinnedHeaderPosition(parent, firstVisiblePosition);
 
         //如果找到，进而获取这个PinnedHeader的ItemView
